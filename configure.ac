@@ -16,9 +16,14 @@ AC_PROG_CC
 # Checks for header files.
 AC_CONFIG_HEADERS([config.h])
 
+dnl i18n support from GNU gettext.
+AM_GNU_GETTEXT_VERSION([0.18.1])
+AM_GNU_GETTEXT([external])
+
 AC_CONFIG_FILES([
 Makefile
 src/Makefile
+po/Makefile.in
 ])
 
 AC_OUTPUT

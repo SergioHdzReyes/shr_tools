@@ -1,20 +1,23 @@
-#include <config.h>
 #include <stdio.h>
-# include <libintl.h>
-# include <locale.h>
+#include <stdlib.h>
+#include <libconfig.h>
+#include "configuration.h"
 
 #define PROGRAM_NAME "servers"
-#define _(STRING) gettext(STRING)
-
-#include "utils.h"
+//#define _(STRING) gettext(STRING)
 
 int
 main (void)
 {
-  setlocale(LC_ALL, "");
-  bindtextdomain("servers", "/usr/share/locale/");
-  textdomain("servers");
+  load_configuration();
 
-  printf(_("servers"));
+  //setlocale(LC_ALL, "");
+  //bindtextdomain("servers", "/usr/share/locale/");
+  //textdomain("servers");
+  //printf(_("servers"));
+
+  printf("prueba");
+
+  destroy_configuration();
   return EXIT_SUCCESS;
 }

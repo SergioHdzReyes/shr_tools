@@ -22,6 +22,20 @@ PKG_CHECK_MODULES(
     AC_MSG_ERROR([libconfig++ 1.4 or newer not found.])
 )
 
+# FIXME: Replace `main' with a function in `-lconfig':
+AC_CHECK_LIB([config], [main])
+# FIXME: Replace `main' with a function in `-lgit2':
+AC_CHECK_LIB([git2], [main])
+
+# Checks for header files.
+AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+AC_CHECK_FUNCS([getcwd setlocale])
+
 AC_CONFIG_FILES([
 Makefile
 src/Makefile

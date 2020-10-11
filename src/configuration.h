@@ -14,17 +14,24 @@
 
 #define CONFIG_FILE_PATH
 
+struct _config_info {
+  const char *default_server;
+} config_info;
+
 config_t cfg;
 config_setting_t *setting;
-const char *str;
 
-char concat_with_separator(char *dest, char const *src);
-char *get_configuration_file();
-int destroy_configuration();
+
 int load_configuration();
+int destroy_configuration();
+// char *get_configuration_file();
+char concat_with_separator(char *dest, char const *src);
+
 
 int load_configuration()
 {
+  const char *cfg_item;
+
   config_init(&cfg);
 
   char *config_file = "/home/sergio/.config/shr_tools_config";
@@ -35,6 +42,11 @@ int load_configuration()
     return(EXIT_FAILURE);
   }
 
+  if (config_lookup_string(&cfg, "default_server", &cfg_item))
+    config_info.default_server = cfg_item;
+  else
+    fprintf(stderr, "No se encontro el valor 'default_server' en el archivo de configuracion\n");
+
   return 1;
 }
 
@@ -43,17 +55,17 @@ int destroy_configuration()
   config_destroy(&cfg);
 }
 
-char *get_configuration_file()
-{
-  char *homedir = getenv("HOME");
-  char *path = "";
+/* char *get_configuration_file() */
+/* { */
+/*   char *homedir = getenv("HOME"); */
+/*   char *path = ""; */
 
-  concat_with_separator(path, homedir);
-  concat_with_separator(path, ".config");
-  concat_with_separator(path, "shr_tools_configs");
+/*   concat_with_separator(path, homedir); */
+/*   concat_with_separator(path, ".config"); */
+/*   concat_with_separator(path, "shr_tools_configs"); */
 
-  return path;
-}
+/*   return path; */
+/* } */
 
 char concat_with_separator(char *dest, char const *src)
 {

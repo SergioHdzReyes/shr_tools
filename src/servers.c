@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libconfig.h>
-#include "configuration.h"
+#include "utils.h"
 
 #define PROGRAM_NAME "servers"
 //#define _(STRING) gettext(STRING)
@@ -9,14 +9,15 @@
 int
 main (void)
 {
+  char* data;
+
   load_configuration();
+  data = send_request();
 
-  //setlocale(LC_ALL, "");
-  //bindtextdomain("servers", "/usr/share/locale/");
-  //textdomain("servers");
-  //printf(_("servers"));
-
-  printf("prueba");
+  if(data) {
+    printf("%s\n", data);
+    free(data);
+  }
 
   destroy_configuration();
   return EXIT_SUCCESS;

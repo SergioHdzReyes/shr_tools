@@ -45,7 +45,7 @@ int load_configuration()
   config_init(&cfg);
 
   char *config_file = getenv("HOME");
-  strcat(config_file, "/.config/shr_tools_config");
+  strcat(config_file, "/.config/shr_tools");
 
   if(! config_read_file(&cfg, config_file)) {
     fprintf(stderr, "%s:%d - %s\n", config_error_file(&cfg), config_error_line(&cfg), config_error_text(&cfg));

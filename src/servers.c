@@ -9,14 +9,12 @@
 int
 main (void)
 {
-  char* data;
-
   load_configuration();
-  data = send_request();
 
-  if(data) {
-    printf("%s\n", data);
-    free(data);
+  send_request();
+
+  for (int i=0; i<config_info.servers_count; i++) {
+    printf("HOST: %s\nRESPONSE: %s\n\n", config_info.servers[i].url_req, config_info.servers[i].resp);
   }
 
   destroy_configuration();

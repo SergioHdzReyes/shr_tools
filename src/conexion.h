@@ -54,35 +54,39 @@ char *send_request()
     return NULL;
   }
 
-  data.data[0] = '\0';
-
   /* In windows, this will init the winsock stuff */
   curl_global_init(CURL_GLOBAL_ALL);
 
-  /* get a curl handle */
-  curl = curl_easy_init();
-  if(curl) {
-    /* First set the URL that is about to receive our POST. This URL can
-       just as well be a https:// URL if that is what should receive the
-       data. */
-    curl_easy_setopt(curl, CURLOPT_URL, config_info.default_server);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
+  for (int i=0; i < config_info.servers_count; i++) {
+    data.data[0] = '\0';
+    curl = curl_easy_init();
 
-    /* Now specify the POST data */
-    //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "name=daniel&project=curl");
+    if(curl) {
+      struct curl_slist *chunk = NULL;
 
-    /* Perform the request, res will get the return code */
-    res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK)
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
+      for (int a=0; a < config_info.servers[i].headers_count; a++) {
+        chunk = curl_slist_append(chunk, config_info.servers[i].headers[a]);
+      }
 
-    /* always cleanup */
-    curl_easy_cleanup(curl);
+      curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
+      curl_easy_setopt(curl, CURLOPT_URL, config_info.servers[i].url_req);
+      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
+
+      /* Now specify the POST data */
+      //curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "name=daniel&project=curl");
+      res = curl_easy_perform(curl);
+
+      if(res != CURLE_OK)
+        fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+
+      config_info.servers[i].resp = malloc(strlen(data.data) + 1);
+      strcpy(config_info.servers[i].resp, data.data);
+
+      /* always cleanup */
+      curl_easy_cleanup(curl);
+    }
   }
-  return data.data;
 }
 
 #endif

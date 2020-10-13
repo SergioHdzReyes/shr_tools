@@ -14,8 +14,17 @@
 
 #define CONFIG_FILE_PATH
 
+struct _host_detail {
+  const char *url_req;
+  char *resp;
+  char *domain;
+  const char *headers[10];
+  int headers_count;
+};
+
 struct _config_info {
-  const char *default_server;
+  struct _host_detail servers[20];
+  int servers_count;
 } config_info;
 
 config_t cfg;
@@ -31,10 +40,12 @@ char concat_with_separator(char *dest, char const *src);
 int load_configuration()
 {
   const char *cfg_item;
+  config_setting_t *setting;
 
   config_init(&cfg);
 
-  char *config_file = "/home/sergio/.config/shr_tools_config";
+  char *config_file = getenv("HOME");
+  strcat(config_file, "/.config/shr_tools_config");
 
   if(! config_read_file(&cfg, config_file)) {
     fprintf(stderr, "%s:%d - %s\n", config_error_file(&cfg), config_error_line(&cfg), config_error_text(&cfg));
@@ -42,10 +53,40 @@ int load_configuration()
     return(EXIT_FAILURE);
   }
 
-  if (config_lookup_string(&cfg, "default_server", &cfg_item))
-    config_info.default_server = cfg_item;
-  else
-    fprintf(stderr, "No se encontro el valor 'default_server' en el archivo de configuracion\n");
+  /* Output a list of all books in the inventory. */
+  setting = config_lookup(&cfg, "servers_scan");
+  if(setting != NULL) {
+    int count = config_setting_length(setting);
+    int i;
+    const char *url;
+    const char *header;
+    config_setting_t *cfg_hdr;
+
+    config_info.servers_count = count;
+
+    for(i = 0; i < count; ++i) {
+      url = "";
+      header = "";
+      config_setting_t *host = config_setting_get_elem(setting, i);
+
+      if (!config_setting_lookup_string(host, "url", &url))
+        continue;
+
+      config_info.servers[i].url_req = url;
+
+      host = config_setting_get_member(host, "headers");
+      if (!host)
+        continue;
+
+      int hdr_qty = config_setting_length(host);
+      config_info.servers[i].headers_count = hdr_qty;
+
+      for (int m = 0; m < hdr_qty; m++) {
+        header = config_setting_get_string_elem(host, m);
+        config_info.servers[i].headers[m] = header;
+      }
+    }
+  }
 
   return 1;
 }

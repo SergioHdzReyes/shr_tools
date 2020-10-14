@@ -13,9 +13,20 @@ subdir-objects
 
 AC_PROG_CC
 
+LT_INIT
+AC_CONFIG_MACRO_DIRS([m4])
+
+# Checks for libcurl library
+PKG_CHECK_MODULES(
+    [LIBCURL], [libcurl >= 7.28.0],
+    ,
+    AC_MSG_ERROR([libcurl 7.28.0 or newer not found.])
+)
+
 # Checks for header files.
 AC_CONFIG_HEADERS([config.h])
 
+# Checks for libconfig++ library
 PKG_CHECK_MODULES(
     [LIBCONFIGXX], [libconfig++ >= 1.4],
     ,

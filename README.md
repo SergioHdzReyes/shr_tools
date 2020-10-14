@@ -3,7 +3,8 @@ Herramientas personales de desarrollo
 
 # Herramientas necesarias
 	* libconfig
-	* gitlib2
+	* libcurl
+	* libgit2
 	* autoconf
 	* automake
 

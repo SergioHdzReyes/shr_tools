@@ -16,11 +16,11 @@ AC_PROG_CC
 # Checks for header files.
 AC_CONFIG_HEADERS([config.h])
 
-PKG_CHECK_MODULES(
-    [LIBCONFIGXX], [libconfig++ >= 1.4],
-    ,
-    AC_MSG_ERROR([libconfig++ 1.4 or newer not found.])
-)
+dnl PKG_CHECK_MODULES(
+dnl     [LIBCONFIGXX], [libconfig++ >= 1.4],
+dnl     ,
+dnl     AC_MSG_ERROR([libconfig++ 1.4 or newer not found.])
+dnl )
 
 # FIXME: Replace `main' with a function in `-lconfig':
 AC_CHECK_LIB([config], [main])

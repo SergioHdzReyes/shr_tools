@@ -87,6 +87,8 @@ char *send_request()
       curl_easy_cleanup(curl);
     }
   }
+
+  return 0;
 }
 
 #endif

@@ -39,7 +39,6 @@ char concat_with_separator(char *dest, char const *src);
 
 int load_configuration()
 {
-  const char *cfg_item;
   config_setting_t *setting;
 
   config_init(&cfg);
@@ -60,7 +59,6 @@ int load_configuration()
     int i;
     const char *url;
     const char *header;
-    config_setting_t *cfg_hdr;
 
     config_info.servers_count = count;
 
@@ -88,12 +86,14 @@ int load_configuration()
     }
   }
 
-  return 1;
+  return 0;
 }
 
 int destroy_configuration()
 {
   config_destroy(&cfg);
+
+  return 0;
 }
 
 /* char *get_configuration_file() */
@@ -113,6 +113,8 @@ char concat_with_separator(char *dest, char const *src)
   //char *aux = malloc(strlen(src)+strlen(PATH_SEPARATOR)+1);
   strcat(dest, src);
   strcat(dest, PATH_SEPARATOR);
+
+  return 0;
 }
 
 #endif

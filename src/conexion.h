@@ -16,6 +16,7 @@ struct url_data {
 };
 
 char *send_request();
+size_t write_data(void *ptr, size_t size, size_t nmemb, struct url_data *data);
 
 size_t write_data(void *ptr, size_t size, size_t nmemb, struct url_data *data) {
   size_t index = data->size;

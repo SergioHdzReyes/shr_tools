@@ -53,6 +53,7 @@ int load_configuration()
   }
 
   load_screen_info();
+  draw_window_design();
 
   return 0;
 }

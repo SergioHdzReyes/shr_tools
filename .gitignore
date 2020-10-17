@@ -69,3 +69,4 @@ stamp-h1
 config.guess
 *~
 src/~
+/config.sub

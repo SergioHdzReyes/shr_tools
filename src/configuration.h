@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <libconfig.h>
 #include <string.h>
+#include "screen_configs.h"
 
 #if defined(WIN32) || defined(_WIN32)
 #define PATH_SEPARATOR "\\"

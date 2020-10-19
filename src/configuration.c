@@ -10,7 +10,7 @@ int load_configuration()
   strcat(config_file, "/.config/shr_tools");
 
   if(! config_read_file(&cfg, config_file)) {
-    fprintf(stderr, "%s:%d - %s\n", config_error_file(&cfg), config_error_line(&cfg), config_error_text(&cfg));
+    fprintf(stderr, "Imposible leer archivo de configuración: %s:%d - %s\n", config_error_file(&cfg), config_error_line(&cfg), config_error_text(&cfg));
     config_destroy(&cfg);
     return(EXIT_FAILURE);
   }

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libconfig.h>
-#include <ncurses.h>
 #include "utils.h"
 
 #define PROGRAM_NAME "servers"
@@ -12,8 +11,10 @@ main (void)
 {
   char ch;
 
-  initscr();
-  load_configuration();
+  init_curses(true);
+
+  if (load_configuration())
+    return destroy_and_exit(EXIT_FAILURE);
 
   send_request();
 
@@ -21,7 +22,5 @@ main (void)
 
   }
 
-  destroy_configuration();
-  endwin();
-  return EXIT_SUCCESS;
+  return destroy_and_exit(EXIT_SUCCESS);
 }

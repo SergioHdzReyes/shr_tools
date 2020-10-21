@@ -10,6 +10,7 @@
 #define RED_BLACK 3
 #define CYAN_BLACK 4
 #define WHITE_BLACK 5
+#define YELLOW_BLACK 6
 
 struct _win_info {
   int x_size, y_size;

@@ -1,2 +1,47 @@
 #!/bin/bash
+
+ostype=0
+
+COLOR_RED='\033[0;31m'
+COLOR_GREEN='\033[0;32m'
+COLOR_BROW_ORANGE='\033[0;33m'
+COLOR_WHITE='\033[1;37m'
+
+function print_danger()
+{
+    printf "${COLOR_RED}$1${COLOR_WHITE}"
+}
+
+function print_success()
+{
+    printf "${COLOR_GREEN}$1${COLOR_WHITE}"
+}
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    ostype=1
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+	ostype=2
+    fi
+fi
+
+# autoreconf pertenece al paquete Autoconf
+if [[ "$(command -v autoreconf)" == "" ]]; then
+    if [[ ostype > 0 ]]; then
+	printf "${COLOR_BROW_ORANGE}El siguiente paquete no se encuentra instalado: ${COLOR_WHITE}autoconf\n"
+    else
+	print_danger "Sistema no compatible\n"
+    fi
+
+    exit 0
+fi
+
+# aclocal pertenece al paquete Automake
+if [[ "$(command -v aclocal)" == "" ]]; then
+    printf "${COLOR_BROW_ORANGE}El siguiente paquete no se encuentra instalado: ${COLOR_WHITE}automake\n"
+
+    exit 0
+fi
+
 autoreconf --install
+
+print_success "Configuración inicial terminada exitosamente\n"

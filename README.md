@@ -10,18 +10,18 @@ Herramientas personales de desarrollo
 
 # Compilando desde Git
 
-Descarga el proyecto y prepara las fuentes
+Paso 1: Descarga el proyecto y prepara las fuentes
 
 	git clone https://github.com/SergioHdzReyes/shr_tools.git
 	cd shr_tools
 	./bootstrap
 
-Configura shr_tools con
+Paso 2: Configura y compila con
 
 	./configure
 	make
 
-Instala
+Paso 3: Instala
 
 	sudo make install
 
